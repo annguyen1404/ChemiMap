@@ -14,6 +14,13 @@ const Results = () => {
     navigate(`/results?query=${encodeURIComponent(query)}`);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+
   // Mock search results based on url query
   const mockResults = [
     `Mock values 1 for ${initialQuery}`,
@@ -31,6 +38,7 @@ const Results = () => {
         placeholder="Search..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <button onClick={handleSearch}>Search</button>
       
