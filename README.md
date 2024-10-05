@@ -37,7 +37,7 @@ cd chemimap
 
 ### 2. Set Up the Frontend
 ```bash
-# Navigate to frontend folder
+# From the chemimap project folder, navigate to frontend folder
 cd frontend
 
 # Install dependencies
@@ -46,17 +46,20 @@ npm install
 
 ### 3. Set Up the Backend
 ```bash
-# Navigate to backend folder
-cd backend
+# From the chemimap project folder, navigate to the directory one level up
+cd ..
 
 # Create a virtual environment
-python -m venv venv
+python -m venv chemimap-venv
 
 # Activate the virtual environment
 # On Windows
-venv\Scripts\activate
+chemimap-venv\Scripts\activate
 # On macOS/Linux
-source venv/bin/activate
+source chemimap-venv/bin/activate
+
+# Navigate into the chemimap project folder and to the backend folder
+cd chemimap/backend
 
 # Install backend dependencies
 pip install -r requirements.txt
@@ -68,12 +71,12 @@ Ensure databases are running before starting the application. **Skip this step f
 
 ## Running the App
 
-- Navigate to the backend directory and run:
+- Navigate to the backend folder and run:
     ```bash
     python chemimap.py
     ```
 
-- In a new terminal window, navigate to the frontend directory and run:
+- In a new terminal window, navigate to the frontend folder and run:
     ```bash
     npm start
     ```

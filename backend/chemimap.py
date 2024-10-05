@@ -8,7 +8,7 @@ app = Flask(__name__)
 # Example route for testing
 @app.route('/')
 def home():
-    return "Chemimap Backend Running"
+    return "ChemiMap Backend Running"
 
 if __name__ == '__main__':
     app.run(debug=True)
