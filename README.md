@@ -50,13 +50,13 @@ npm install
 cd backend
 
 # Create a virtual environment
-python -m venv chemimap-venv
+python -m venv .venv
 
 # Activate the virtual environment
 # On Windows
-chemimap-venv\Scripts\activate
+.venv\Scripts\activate
 # On macOS/Linux
-source chemimap-venv/bin/activate
+source .venv/bin/activate
 
 # Install backend dependencies
 pip install -r requirements.txt
