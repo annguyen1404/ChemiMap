@@ -1,9 +1,11 @@
 # API Endpoint Documentation: 
 
-## Get Full Article by Article ID
+## Get Article details by Article ID (MongoDB)
 
 ### Overview
-The `GET /api/papers/{article_id}` endpoint allows users to retrieve a specific article's details from the `chemi_map` MongoDB collection using its unique `article_id`. It returns a JSON object with information such as the article's title, abstract, associated chemicals, diseases, and other relevant metadata.
+The `GET` `/api/papers/{article_id}` endpoint allows users to retrieve a specific article's details from the chemi_map `MongoDB` collection using its unique `article_id`.
+
+It returns a JSON object with information such as the article's title, abstract, associated chemicals, diseases, and other relevant metadata.
 
 ### Request URL
 `http://<your-ec2-public-ip>:5000/api/papers/{article_id}`
@@ -11,12 +13,9 @@ The `GET /api/papers/{article_id}` endpoint allows users to retrieve a specific 
 *development <your-ec2-public-ip>: 35.89.243.42
 
 #### Example
+Use a curl command:
 
-http://35.89.243.42:5000/api/papers/439781
-
-
-## Request Method
-`GET`
+`curl http://35.89.243.42:5000/api/papers/439781`
 
 ## Parameters
 - `article_id` (string, required): The unique identifier of the article to be fetched.
