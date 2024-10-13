@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/SearchBar";
+import { Subtext, SubTitle } from "../styles/Text";
 
 const Container = styled.div`
   height: 100vh;
@@ -61,7 +62,7 @@ const Results: React.FC = () => {
   return (
     <Container>
       <ResultsSection>
-        <h2>Search Results for: {initialQuery}</h2>
+        <SubTitle>Search Results for: {initialQuery}</SubTitle>
 
         <SearchBar 
           query={query} 
@@ -71,11 +72,11 @@ const Results: React.FC = () => {
         />
 
         {/* Display mock search results */}
-        <ul>
+        <Subtext>
           {mockResults.map((result, index) => (
             <li key={index}>{result}</li>
           ))}
-        </ul>
+        </Subtext>
       </ResultsSection>
     </Container>
   );

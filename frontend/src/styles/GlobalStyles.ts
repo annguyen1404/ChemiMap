@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -13,6 +13,10 @@ const GlobalStyles = createGlobalStyle`
 
   h1, h2, h3, h4, h5, h6, p {
     margin: 0; /* Reset margins for headings and paragraphs */
+  }
+
+  html {
+    scroll-behavior: smooth; /* Enables smooth scrolling */
   }
 `;
 

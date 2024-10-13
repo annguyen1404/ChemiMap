@@ -2,30 +2,10 @@ import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar";
-import colours from "../styles/Colours";
+import { Container, Section } from "../styles/Layout";
+import { Subtext, SubTitle, Title } from "../styles/Text";
 
 const backgroundImage = require("../assets/background.jpg");
-
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
-`;
-
-const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  color: white;
-  text-align: center;
-  scroll-snap-align: start;
-  background-color: black;
-`;
 
 const MainSection = styled(Section)`
   background-image: url(${backgroundImage});
@@ -43,17 +23,9 @@ const FooterSection = styled(Section)`
   justify-content: flex-end;
 `;
 
-const Title = styled.h1`
-  font-size: 6rem;
-  font-weight: 500;
-  margin: 0;
-  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-`;
-
-const Subtext = styled.p`
-  color: ${colours.grey};
+const SubtextMain = styled(Subtext)`
   margin-bottom: 80px;
-  font-size: 0.75rem;
+  margin-top: 0px;
   max-width: 400px;
 `;
 
@@ -77,12 +49,12 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      <MainSection>
-      <Subtext>
+      <MainSection id="main">
+        <SubtextMain>
           Discover connections in biomedical literature through our dynamic
           knowledge graph of chemical and disease relationships.
-        </Subtext>
-      <Title>ChemiMap</Title>
+        </SubtextMain>
+        <Title>ChemiMap</Title>
         <SearchBar
           query={query}
           onChange={handleChange}
@@ -91,13 +63,15 @@ const Home: React.FC = () => {
         />
       </MainSection>
 
-      <AboutSection>
-        <h2>About ChemiMap</h2>
-        <p>ChemiMap is your resource for biomedical research papers.</p>
+      <AboutSection id="about">
+        <SubTitle>About ChemiMap</SubTitle>
+        <Subtext>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </Subtext>
       </AboutSection>
 
-      <FooterSection>
-        <p>© 2024 ChemiMap. All rights reserved.</p>
+      <FooterSection id="footer">
+        <Subtext>© 2024 ChemiMap. All rights reserved.</Subtext>
       </FooterSection>
     </Container>
   );
