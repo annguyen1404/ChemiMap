@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Results = () => {
+const Results: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const initialQuery = queryParams.get("query") || "";
-  
-  const [query, setQuery] = useState(initialQuery);
 
-  const handleSearch = () => {
+  const [query, setQuery] = useState<string>(initialQuery);
+
+  const handleSearch = (): void => {
     // Update the URL with the new query
     navigate(`/results?query=${encodeURIComponent(query)}`);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setQuery(e.target.value);
+  };
 
   // Mock search results based on url query
   const mockResults = [
@@ -37,7 +40,7 @@ const Results = () => {
         type="text"
         placeholder="Search..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
       <button onClick={handleSearch}>Search</button>

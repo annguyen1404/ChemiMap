@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
-  const [query, setQuery] = useState("");
+const Home: React.FC = () => {
+  const [query, setQuery] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     navigate(`/results?query=${encodeURIComponent(query)}`);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       handleSearch();
     }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setQuery(e.target.value);
   };
 
   return (
@@ -22,7 +26,7 @@ const Home = () => {
         type="text"
         placeholder="Search biomedical research papers..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
       <button onClick={handleSearch}>Search</button>
