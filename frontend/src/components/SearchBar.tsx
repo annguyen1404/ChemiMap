@@ -28,6 +28,7 @@ const Input = styled.input`
 `;
 
 const IconButton = styled.button`
+  display: flex;
   padding: 10px;
   border: none;
   border-radius: 50%; 

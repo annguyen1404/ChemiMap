@@ -62,7 +62,7 @@ const Results: React.FC = () => {
   return (
     <Container>
       <ResultsSection>
-        <SubTitle>Search Results for: {initialQuery}</SubTitle>
+        <SubTitle>Search results for: {initialQuery}</SubTitle>
 
         <SearchBar 
           query={query} 
