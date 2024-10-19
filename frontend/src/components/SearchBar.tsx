@@ -2,6 +2,7 @@ import React, { ChangeEvent, KeyboardEvent } from "react";
 import styled from "styled-components";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import colours from "../styles/Colours";
+import { IconButton } from "../styles/Layout";
 
 const SearchContainer = styled.div`
   display: flex;
@@ -25,19 +26,6 @@ const Input = styled.input`
   outline: none;
   background-color: transparent; /* Make background transparent to show container */
   color: white;
-`;
-
-const IconButton = styled.button`
-  display: flex;
-  padding: 10px;
-  border: none;
-  border-radius: 50%; 
-  background-color: transparent; 
-  color: white;
-  cursor: pointer;
-  &:hover {
-    color: ${colours.hoverGrey};
-  }
 `;
 
 const ClearButton = styled.button`

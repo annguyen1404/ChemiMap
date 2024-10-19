@@ -1,14 +1,12 @@
-import { SimulationNodeDatum } from "d3";
+import { SimulationLinkDatum, SimulationNodeDatum } from "d3";
 
 export interface Node extends SimulationNodeDatum {
   id: string;
   group: number;
   label: string;
-  fx?: number | null; // Fixed position on the x-axis
-  fy?: number | null; // Fixed position on the y-axis
 }
 
-export interface Link {
+export interface Link extends SimulationLinkDatum<Node>{
   source: Node;
   target: Node;
   weight?: number;

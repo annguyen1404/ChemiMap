@@ -14,10 +14,6 @@ const MainSection = styled(Section)`
   background-repeat: no-repeat;
 `;
 
-const AboutSection = styled(Section)`
-  background-color: black;
-`;
-
 const FooterSection = styled(Section)`
   height: 50vh;
   justify-content: flex-end;
@@ -63,12 +59,12 @@ const Home: React.FC = () => {
         />
       </MainSection>
 
-      <AboutSection id="about">
+      <Section id="about">
         <SubTitle>About ChemiMap</SubTitle>
         <Subtext>
         Chemimap is a team of data scientists dedicated to helping researchers in the Chemistry field by building a solution for intuitive search and exploration of chemicals, diseases and their relationships in biomedical literature. The team implemented Named Entity Recognition and Relation Extraction models to capture relations within complex articles, combining graphical and document-based databases for efficient access and visualization. 
         </Subtext>
-      </AboutSection>
+      </Section>
 
       <FooterSection id="footer">
         <Subtext>© 2024 ChemiMap. All rights reserved.</Subtext>

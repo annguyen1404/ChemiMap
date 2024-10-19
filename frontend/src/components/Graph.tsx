@@ -14,8 +14,8 @@ const Graph = (props: GraphProps) => {
     if (!props.data || !svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
-    const width = 800;
-    const height = 600;
+    const width = svgRef.current.clientWidth;
+    const height = svgRef.current.clientHeight;
 
     svg.selectAll("*").remove(); // Clear previous renders
 
@@ -28,6 +28,7 @@ const Graph = (props: GraphProps) => {
           .forceLink()
           .id((d: any) => d.id)
           .links(props.data.links)
+          .distance(100)
       )
       .force("charge", d3.forceManyBody().strength(-300))
       .force("center", d3.forceCenter(width / 2, height / 2));
@@ -62,15 +63,18 @@ const Graph = (props: GraphProps) => {
       )
       .on("click", (event, d) => props.onNodeClick(d));
 
-    // Add labels to nodes
-    svg
+    // Create labels for each node
+    const labels = svg
       .append("g")
+      .attr("class", "labels")
       .selectAll("text")
       .data(props.data.nodes)
       .enter()
       .append("text")
-      .attr("x", 12)
-      .attr("y", 3)
+      .attr("text-anchor", "middle")
+      .attr("dy", -15) // Position the label above the node
+      .attr("fill", "#fff")
+      .style("font-size", "11px")
       .text((d) => d.label);
 
     simulation.on("tick", () => {
@@ -81,6 +85,10 @@ const Graph = (props: GraphProps) => {
         .attr("y2", (d) => (d.target as Node).y!);
 
       node.attr("cx", (d) => d.x!).attr("cy", (d) => d.y!);
+      
+      labels
+        .attr("x", (d) => d.x!)
+        .attr("y", (d) => d.y!);
     });
 
     function dragStarted(event: any, d: Node) {
@@ -101,7 +109,7 @@ const Graph = (props: GraphProps) => {
     }
   }, [props]);
 
-  return <svg ref={svgRef} width="800" height="600" />;
+  return <svg ref={svgRef} width="800" height="50%" />;
 };
 
 export default Graph;
