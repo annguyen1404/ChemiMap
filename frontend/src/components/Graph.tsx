@@ -61,7 +61,20 @@ const Graph = (props: GraphProps) => {
           .on("drag", dragged)
           .on("end", dragEnded)
       )
-      .on("click", (event, d) => props.onNodeClick(d));
+      .on("click", (event, d) => props.onNodeClick(d))
+      .on("mouseover", function () {
+        d3.select(this)
+          .transition()
+          .duration(100)
+          .attr("stroke", "white")
+          .attr("stroke-width", 3);
+      })
+      .on("mouseout", function () {
+        d3.select(this)
+          .transition()
+          .duration(100)
+          .attr("stroke", "none");
+      });;
 
     // Create labels for each node
     const labels = svg
