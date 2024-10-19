@@ -6,16 +6,8 @@ import { Subtext, SubTitle as Subtitle } from "../styles/Text";
 import Graph from "../components/Graph";
 import { Node } from "../components/DataModels";
 import NodeDashboard from "../components/NodeDashboard";
-import { IconButton, Section } from "../styles/Layout";
+import { Container, IconButton, Section } from "../styles/Layout";
 import { FaArrowDown } from "react-icons/fa";
-
-const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
-`;
 
 const SubtitleGraph = styled(Subtitle)`
   margin-top: 20px;

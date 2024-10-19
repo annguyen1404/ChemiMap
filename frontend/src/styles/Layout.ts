@@ -2,8 +2,8 @@ import styled from "styled-components";
 import colours from "./Colours";
 
 export const Container = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
@@ -26,8 +26,8 @@ export const IconButton = styled.button`
   display: flex;
   padding: 10px;
   border: none;
-  border-radius: 50%; 
-  background-color: transparent; 
+  border-radius: 50%;
+  background-color: transparent;
   color: white;
   cursor: pointer;
   &:hover {
