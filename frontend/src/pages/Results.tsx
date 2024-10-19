@@ -60,7 +60,8 @@ const Results: React.FC = () => {
   };
 
   const handleSearch = (): void => {
-    // Update the URL with the new query
+    // Update the URL with the new query and unselect nodes
+    setSelectedNode(null);
     navigate(`/results?query=${encodeURIComponent(query)}`);
   };
 
