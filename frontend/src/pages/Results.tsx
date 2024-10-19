@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/SearchBar";
 import { Subtext, SubTitle } from "../styles/Text";
+import Graph from "../components/Graph";
+import { Node } from "../components/DataModels";
+import NodeDashboard from "../components/NodeDashboard";
 
 const Container = styled.div`
   height: 100vh;
@@ -29,7 +32,23 @@ const ResultsSection = styled(Section)`
   background-color: black;
 `;
 
+const mockNode1 = { id: "1", group: 1, label: "Node 1" };
+const mockNode2 = { id: "2", group: 2, label: "Node 2" };
+const mockNode3 = { id: "3", group: 1, label: "Node 3" };
+const mockGraphData = {
+  nodes: [mockNode1, mockNode2, mockNode3],
+  links: [
+    { source: mockNode1, target: mockNode2 },
+    { source: mockNode2, target: mockNode3 },
+  ],
+};
+
 const Results: React.FC = () => {
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const handleNodeClick = (node: Node) => {
+    console.log('testttt', node.id)
+    setSelectedNode(node);
+  };
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -64,11 +83,11 @@ const Results: React.FC = () => {
       <ResultsSection>
         <SubTitle>Search results for: {initialQuery}</SubTitle>
 
-        <SearchBar 
-          query={query} 
-          onChange={handleChange} 
-          onSearch={handleSearch} 
-          onKeyDown={handleKeyDown} 
+        <SearchBar
+          query={query}
+          onChange={handleChange}
+          onSearch={handleSearch}
+          onKeyDown={handleKeyDown}
         />
 
         {/* Display mock search results */}
@@ -77,6 +96,9 @@ const Results: React.FC = () => {
             <li key={index}>{result}</li>
           ))}
         </Subtext>
+
+        <Graph data={mockGraphData} onNodeClick={handleNodeClick} />
+        <NodeDashboard selectedNode={selectedNode} />
       </ResultsSection>
     </Container>
   );
