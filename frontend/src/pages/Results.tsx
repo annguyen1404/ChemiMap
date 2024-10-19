@@ -17,17 +17,6 @@ const SubtextGraph = styled(Subtext)`
   margin-bottom: 0px;
 `;
 
-const mockNode1 = { id: "1", group: 1, label: "Node 1" };
-const mockNode2 = { id: "2", group: 2, label: "Node 2" };
-const mockNode3 = { id: "3", group: 1, label: "Node 3" };
-const mockGraphData = {
-  nodes: [mockNode1, mockNode2, mockNode3],
-  links: [
-    { source: mockNode1, target: mockNode2 },
-    { source: mockNode2, target: mockNode3 },
-  ],
-};
-
 const Results: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -75,12 +64,24 @@ const Results: React.FC = () => {
     setQuery(e.target.value);
   };
 
-  // Mock search results based on url query
+  // Mock search results
   const mockResults = [
-    `Mock values 1 for ${initialQuery}`,
-    `Mock values 2 for ${initialQuery}`,
-    `Mock values 3 for ${initialQuery}`,
+    `Mock article 1 for ${initialQuery}`,
+    `Mock article 2 for ${initialQuery}`,
+    `Mock article 3 for ${initialQuery}`,
   ];
+
+  // Mock graph data
+  const mockNode1 = { id: "1", group: 1, label: `${initialQuery} 1` };
+  const mockNode2 = { id: "2", group: 2, label: `${initialQuery} 2` };
+  const mockNode3 = { id: "3", group: 1, label: `${initialQuery} 3` };
+  const mockGraphData = {
+    nodes: [mockNode1, mockNode2, mockNode3],
+    links: [
+      { source: mockNode1, target: mockNode2 },
+      { source: mockNode2, target: mockNode3 },
+    ],
+  };
 
   return (
     <Container>
