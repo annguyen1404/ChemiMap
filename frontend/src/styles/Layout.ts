@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import colours from "./Colours";
+import { navBarHeight } from "./GlobalStyles";
 
-export const Container = styled.div`
-  height: 100vh;
+export const Container = styled.main`
+  height: calc(100% - ${navBarHeight});
   width: 100vw;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
+  background-color: black;
 `;
 
 export const Section = styled.section`
@@ -14,7 +16,7 @@ export const Section = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100% - ${navBarHeight});
   width: 100vw;
   color: white;
   text-align: center;
@@ -31,6 +33,6 @@ export const IconButton = styled.button`
   color: white;
   cursor: pointer;
   &:hover {
-    color: ${colours.hoverGrey};
+    color: ${colours.hoverGreyLight};
   }
 `;

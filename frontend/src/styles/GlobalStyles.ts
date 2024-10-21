@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
+export const navBarHeight = '40px'
+
 const GlobalStyles = createGlobalStyle`
   * {
     box-sizing: border-box; /* Ensures padding and borders are included in the element's total width and height */
@@ -9,6 +11,20 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Montserrat', sans-serif; /* Set Montserrat as the default font */
     margin: 0; /* Reset default margin */
     padding: 0; /* Reset default padding */
+    overflow: hidden;
+  }
+
+  nav {
+    background-color: black;
+    height: ${navBarHeight};
+    color: white;
+  }
+
+  main {
+    position: absolute;
+    top: ${navBarHeight};
+    bottom: 0;
+    overflow-y: scroll;
   }
 
   h1, h2, h3, h4, h5, h6, p {
@@ -21,9 +37,8 @@ const GlobalStyles = createGlobalStyle`
 
   /* Custom Scrollbar Styles for WebKit browsers (Chrome, Safari) */
   ::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
+    width: 10px; /* Width of the scrollbar */
     background: black; /* Background color of the scrollbar */
-    border-radius: 6px; /* Rounded edges for the scrollbar */
   }
 
   ::-webkit-scrollbar-track {
@@ -43,7 +58,7 @@ const GlobalStyles = createGlobalStyle`
   /* Custom Scrollbar Styles for Firefox */
   html {
     scrollbar-width: thin; /* Can be thin, auto, or none */
-    scrollbar-color: #555 black; /* thumb color and track color */
+    scrollbar-color: black; /* thumb color and track color */
   }
 `;
 

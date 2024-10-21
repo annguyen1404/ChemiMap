@@ -36,7 +36,7 @@ const ClearButton = styled.button`
   color: white;
   cursor: pointer;
   &:hover {
-    color: ${colours.hoverGrey};
+    color: ${colours.hoverGreyLight};
   }
 `;
 

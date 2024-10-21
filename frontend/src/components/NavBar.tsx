@@ -33,7 +33,7 @@ const Icon = styled.div`
   cursor: pointer;
 
   &:hover {
-    color: ${colours.hoverGrey};
+    color: ${colours.hoverGreyLight};
   }
 `;
 

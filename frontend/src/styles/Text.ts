@@ -16,7 +16,6 @@ export const SubTitle = styled.h2`
 `;
 
 export const Subtext = styled.p`
-  color: ${colours.grey};
   font-size: 0.75rem;
   margin: 10px;
   max-width: 600px;
