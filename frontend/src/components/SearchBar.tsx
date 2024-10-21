@@ -8,8 +8,8 @@ const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 600px; 
-  margin: 20px auto; 
+  max-width: 600px;
+  margin: 20px auto;
   border-radius: 25px;
   background-color: rgba(240, 240, 240, 0.15);
   padding: 0px 5px;
@@ -28,18 +28,6 @@ const Input = styled.input`
   color: white;
 `;
 
-const ClearButton = styled.button`
-  padding: 10px;
-  border: none;
-  border-radius: 50%; 
-  background-color: transparent; 
-  color: white;
-  cursor: pointer;
-  &:hover {
-    color: ${colours.hoverGreyLight};
-  }
-`;
-
 interface SearchBarProps {
   query: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -47,16 +35,21 @@ interface SearchBarProps {
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ query, onChange, onSearch, onKeyDown }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  query,
+  onChange,
+  onSearch,
+  onKeyDown,
+}) => {
   const handleClear = () => {
-    onChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>); 
+    onChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
   };
 
   return (
     <SearchContainer>
-      <ClearButton onClick={handleClear}>
+      <IconButton onClick={handleClear}>
         <FaTimes />
-      </ClearButton>
+      </IconButton>
       <Input
         type="text"
         placeholder="Search biomedical research papers..."
