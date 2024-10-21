@@ -11,7 +11,8 @@ import { FaArrowDown } from "react-icons/fa";
 import colours from "../styles/Colours";
 import List from "../components/List";
 
-const mockAbstractText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+const mockAbstractText =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 const SubtitleGraph = styled(Subtitle)`
   margin-top: 20px;
@@ -24,7 +25,6 @@ const SubtextGraph = styled(Subtext)`
 const SubtitleSmaller = styled(Subtitle)`
   font-size: 1.75rem;
 `;
-
 
 const ListContainer = styled.div`
   overflow-x: hidden;
@@ -89,7 +89,7 @@ const Results: React.FC = () => {
   // Effect to reset state when the query changes
   useEffect(() => {
     setSelectedNode(null);
-    setSearchBarValue(query); 
+    setSearchBarValue(query);
   }, [query]);
 
   // Mock graph data
@@ -132,9 +132,16 @@ const Results: React.FC = () => {
           onSearch={handleSearch}
           onKeyDown={handleKeyDown}
         />
+        <SubtextGraph>
+          DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
+          caution.
+        </SubtextGraph>
         <Graph data={mockGraphData} onNodeClick={handleNodeClick} />
         <SubtextGraph>
-          Select any entity to learn more or scroll down for list results.
+          This graph displays the relationship of chemicals/diseases in the top
+          20 most relevant articles.
+          <br></br>Select any entity to learn more or scroll down for the list
+          of relevant articles.
         </SubtextGraph>
         <IconButton onClick={handleScrollDown}>
           <FaArrowDown />
