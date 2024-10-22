@@ -16,7 +16,7 @@ export const Section = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100% - ${navBarHeight});
+  height: 100%;
   width: 100vw;
   color: white;
   text-align: center;
