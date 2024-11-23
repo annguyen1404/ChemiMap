@@ -75,10 +75,6 @@ const Highlight = styled.span<{
   margin-bottom: ${({ isKeyLabel }) => (isKeyLabel ? "5px" : "0")};
   text-align: ${({ isKeyLabel }) => (isKeyLabel ? "center" : "justify")};
   cursor: pointer;
-
-  &:hover {
-    background-color: ${colours.greyDark};
-  }
 `;
 
 const Read: React.FC = () => {
@@ -185,6 +181,9 @@ const Read: React.FC = () => {
                         key={index}
                         color={colours.chemicals}
                         isKeyLabel={true}
+                        highlighted={
+                          hoveredTerm && hoveredTerm !== chemical ? true : false
+                        }
                         onMouseEnter={() => setHoveredTerm(chemical)}
                         onMouseLeave={() => setHoveredTerm(null)}
                       >
@@ -199,6 +198,9 @@ const Read: React.FC = () => {
                         key={index}
                         color={colours.diseases}
                         isKeyLabel={true}
+                        highlighted={
+                          hoveredTerm && hoveredTerm !== disease ? true : false
+                        }
                         onMouseEnter={() => setHoveredTerm(disease)}
                         onMouseLeave={() => setHoveredTerm(null)}
                       >
