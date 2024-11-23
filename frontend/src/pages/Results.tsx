@@ -23,12 +23,19 @@ const parseArray = (str: string | undefined): string[] => {
   }
 };
 
+const truncateAbstract = (abstract: string): string => {
+  if (abstract.length > 50) {
+    return abstract.substring(0, 450) + "...";
+  }
+  return abstract;
+};
+
 const cleanData = (data: any, updateGraphData: boolean): Article[] => {
   if (updateGraphData) {
     return data.map((article: any) => {return {
       id: article.article_code,
       title: article.title,
-      abstract: article.abstract,
+      abstract: truncateAbstract(article.abstract),
       chemicals: parseArray(article.chemicals),
       diseases: parseArray(article.diseases),
     }});
@@ -36,7 +43,7 @@ const cleanData = (data: any, updateGraphData: boolean): Article[] => {
   return data.map((article: any) => {return {
     id: article.article_code,
     title: article.title,
-    abstract: article.abstract,
+    abstract: truncateAbstract(article.abstract),
   }});
 };
 
