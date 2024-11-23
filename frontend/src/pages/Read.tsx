@@ -6,11 +6,34 @@ import { Container, Section } from "../styles/Layout";
 import { Subtext, SubTitle } from "../styles/Text";
 import colours from "../styles/Colours";
 
-const renderList = (items?: string[]) => {
-  if (items) {
-    return items.map((item, index) => <span key={index}>{item}</span>);
-  }
-  return "None";
+const capitalize = (str: string): string => {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+
+const cleanData = (data: any): Article => {
+  const parseArray = (str: string | undefined): string[] => {
+    try {
+      const fixedStr = str?.replace(/'/g, '"');
+      const parsedArray = JSON.parse(fixedStr || '[]') as string[];
+      const normalizedArray = parsedArray.map(item => item.toLowerCase());
+      return [...new Set(normalizedArray)];
+    } catch (error) {
+      console.error('Failed to parse array:', str);
+      return [];
+    }
+  };
+
+  return {
+    id: data._id,
+    title: data.title,
+    abstract: data.abstract,
+    chemicals: parseArray(data.chemicals),
+    diseases: parseArray(data.diseases),
+    chemical_ids: parseArray(data.chemical_ids),
+    disease_ids: parseArray(data.disease_ids),
+  };
 };
 
 const ArticleContainer = styled.div`
@@ -52,6 +75,11 @@ const SubtextArticle = styled(Subtext)`
   max-width: 100%;
 `;
 
+const ArticleTitle = styled(SubTitle)`
+  font-size: 1.5rem;
+  padding: 0 40px;
+`;
+
 const KeyTitle = styled(SubTitle)<{ marginTop?: string }>`
   font-size: 0.75rem;
   max-width: 100%;
@@ -83,25 +111,43 @@ const Read: React.FC = () => {
   const [hoveredTerm, setHoveredTerm] = useState<string | null>(null);
 
   useEffect(() => {
-    // Mock article data
     const fetchArticle = async (articleId: string) => {
       try {
-        const mockData: Article = {
-          id: articleId,
-          title: `Mock Article Title ${articleId}`,
-          abstract: `This is the mock abstract for article ${articleId}. It contains some mock chemicals like Aspirin and some diseases like Cancer. Some more important diseases are: Diabetes, headaches, infections...`,
-          chemicals: ["Aspirin"],
-          diseases: ["Cancer", "Diabetes", "Headaches", "Infections"],
-        };
-
-        // Simulating a network delay with a Promise and setTimeout
-        await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // Simulate 500ms delay
-        setArticle(mockData);
+        const response = await fetch(`/api/papers/${articleId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch article");
+        }
+        
+        const data: Article = await response.json();
+        const cleanedArticle = cleanData(data);
+        console.log(cleanedArticle)
+        setArticle(cleanedArticle);
+        
       } catch (error) {
         console.error("Error fetching article:", error);
         setArticle(null);
       }
     };
+
+    // Mock article data
+    // const fetchArticle = async (articleId: string) => {
+    //   try {
+    //     const mockData: Article = {
+    //       id: articleId,
+    //       title: `Mock Article Title ${articleId}`,
+    //       abstract: `This is the mock abstract for article ${articleId}. It contains some mock chemicals like Aspirin and some diseases like Cancer. Some more important diseases are: Diabetes, headaches, infections...`,
+    //       chemicals: ["Aspirin"],
+    //       diseases: ["Cancer", "Diabetes", "Headaches", "Infections"],
+    //     };
+
+    //     // Simulating a network delay with a Promise and setTimeout
+    //     await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // Simulate 500ms delay
+    //     setArticle(mockData);
+    //   } catch (error) {
+    //     console.error("Error fetching article:", error);
+    //     setArticle(null);
+    //   }
+    // };
 
     if (id) {
       fetchArticle(id);
@@ -170,8 +216,8 @@ const Read: React.FC = () => {
           <SubTitle>Loading...</SubTitle>
         ) : (
           <>
-            <Subtext>PMID: {article.id}</Subtext>
-            <SubTitle>{article.title}</SubTitle>
+            <Subtext>PMID: {id}</Subtext>
+            <ArticleTitle>{article.title}</ArticleTitle>
             <ArticleContainer>
               <KeyContainer>
                 <KeyTitle>Chemicals</KeyTitle>
@@ -187,7 +233,7 @@ const Read: React.FC = () => {
                         onMouseEnter={() => setHoveredTerm(chemical)}
                         onMouseLeave={() => setHoveredTerm(null)}
                       >
-                        {chemical}
+                        {capitalize(chemical)}
                       </Highlight>
                     ))
                   : "None"}
@@ -204,7 +250,7 @@ const Read: React.FC = () => {
                         onMouseEnter={() => setHoveredTerm(disease)}
                         onMouseLeave={() => setHoveredTerm(null)}
                       >
-                        {disease}
+                        {capitalize(disease)}
                       </Highlight>
                     ))
                   : "None"}

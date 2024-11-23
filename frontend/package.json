@@ -43,5 +43,6 @@
   },
   "devDependencies": {
     "@types/d3": "^7.4.3"
-  }
+  },
+  "proxy": "http://35.89.243.42:5000"
 }
