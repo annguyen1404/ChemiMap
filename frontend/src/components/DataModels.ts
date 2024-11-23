@@ -25,4 +25,8 @@ export interface Article {
   diseases?: string[];
   chemical_ids?: string[];
   disease_ids?: string[];
+  chemical_start_indices?: number[];
+  chemical_end_indices?: number[];
+  disease_start_indices?: number[];
+  disease_end_indices?: number[];
 }

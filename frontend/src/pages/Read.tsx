@@ -159,7 +159,7 @@ const Read: React.FC = () => {
     diseases: string[]
   ) => {
     const terms = [...chemicals, ...diseases].join("|");
-    const regex = new RegExp(`(${terms})`, "gi");
+    const regex = new RegExp(`(?<=\\b)(${terms})(?=\\b)`, "gi");
 
     const parts = text.split(regex);
     return parts.map((part, index) => {
