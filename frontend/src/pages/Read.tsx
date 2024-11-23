@@ -158,13 +158,14 @@ const Read: React.FC = () => {
     chemicals: string[],
     diseases: string[]
   ) => {
-    const terms = [...chemicals, ...diseases].join("|");
-    const regex = new RegExp(`(?<=\\b)(${terms})(?=\\b)`, "gi");
 
+    const terms = [...chemicals, ...diseases].sort((a, b) => b.length - a.length);
+    const regex = new RegExp(`(\\b${terms.join("\\b|\\b")}\\b)`, "gi");
+  
     const parts = text.split(regex);
+    
     return parts.map((part, index) => {
       const lowerCasePart = part.toLowerCase();
-
       if (
         chemicals.some((chemical) => chemical.toLowerCase() === lowerCasePart)
       ) {
@@ -175,16 +176,15 @@ const Read: React.FC = () => {
           <Highlight
             key={index}
             color={colours.chemicals}
-            highlighted={
-              hoveredTerm && hoveredTerm !== chemicalName ? true : false
-            }
+            highlighted={hoveredTerm && hoveredTerm !== chemicalName ? true : false}
             onMouseEnter={() => setHoveredTerm(chemicalName || null)}
             onMouseLeave={() => setHoveredTerm(null)}
           >
             {part}
           </Highlight>
         );
-      } else if (
+      } 
+      else if (
         diseases.some((disease) => disease.toLowerCase() === lowerCasePart)
       ) {
         const diseaseName = diseases.find(
@@ -194,9 +194,7 @@ const Read: React.FC = () => {
           <Highlight
             key={index}
             color={colours.diseases}
-            highlighted={
-              hoveredTerm && hoveredTerm !== diseaseName ? true : false
-            }
+            highlighted={hoveredTerm && hoveredTerm !== diseaseName ? true : false}
             onMouseEnter={() => setHoveredTerm(diseaseName || null)}
             onMouseLeave={() => setHoveredTerm(null)}
           >
@@ -204,9 +202,12 @@ const Read: React.FC = () => {
           </Highlight>
         );
       }
+      
+      // Return the unmodified part if it does not match
       return part;
     });
   };
+  
 
   return (
     <Container>
