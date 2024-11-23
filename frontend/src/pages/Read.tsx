@@ -107,6 +107,7 @@ const Highlight = styled.span<{
 
 const Read: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [article, setArticle] = useState<Article | null>(null);
   const [hoveredTerm, setHoveredTerm] = useState<string | null>(null);
 
@@ -122,10 +123,11 @@ const Read: React.FC = () => {
         const cleanedArticle = cleanData(data);
         console.log(cleanedArticle)
         setArticle(cleanedArticle);
-        
+        setLoading(false); 
       } catch (error) {
         console.error("Error fetching article:", error);
         setArticle(null);
+        setLoading(false); 
       }
     };
 
@@ -212,9 +214,9 @@ const Read: React.FC = () => {
   return (
     <Container>
       <Section id="read">
-        {!article ? (
-          <SubTitle>Loading...</SubTitle>
-        ) : (
+        {loading ? (
+          "Loading..."
+        ) : (article? (
           <>
             <Subtext>PMID: {id}</Subtext>
             <ArticleTitle>{article.title}</ArticleTitle>
@@ -267,7 +269,7 @@ const Read: React.FC = () => {
               </TextContainer>
             </ArticleContainer>
           </>
-        )}
+        ): `Retrieval failed: PMID ${id}.`)}
       </Section>
     </Container>
   );
