@@ -3,15 +3,16 @@ import React from 'react';
 import { Article } from './DataModels';
 import { styled } from 'styled-components';
 import colours from '../styles/Colours';
+import { useNavigate } from 'react-router-dom';
 
 const ItemContainer = styled.div`
   text-align: left;
   width: 85vw;
-  outline: 1px solid white;
+  outline: 2px solid white;
   padding: 20px;
   margin: 20px;
-  border-radius: 10px;
-  outline: 1px solid ${colours.greyDark};
+  border-radius: 6px;
+  outline: 2px solid ${colours.greyDark};
   &:hover {
     background-color: ${colours.hoverGreyDark};
   }
@@ -39,8 +40,12 @@ interface ListRowProps {
 }
 
 const ListRow = ({ article }: ListRowProps) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/read/${article.id}`);
+  };
   return (
-    <ItemContainer>
+    <ItemContainer onClick={handleClick} style={{ cursor: "pointer" }}>
       <ItemId>PMID: {article.id}</ItemId>
       <ItemTitle>{article.title}</ItemTitle>
       <ItemText>{article.abstract}</ItemText>

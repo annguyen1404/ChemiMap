@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { GraphData, Node } from "./DataModels";
+import colours from "../styles/Colours";
 
 interface GraphProps {
   data: GraphData;
@@ -53,7 +54,7 @@ const Graph = (props: GraphProps) => {
       .enter()
       .append("circle")
       .attr("r", 10)
-      .attr("fill", (d) => (d.group === 1 ? "blue" : "green"))
+      .attr("fill", (d) => (d.group === 1 ? colours.chemicals : colours.diseases))
       .call(
         d3
           .drag<SVGCircleElement, Node>()

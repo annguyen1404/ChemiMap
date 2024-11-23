@@ -30,12 +30,12 @@ const ListContainer = styled.div`
   overflow-x: hidden;
   display: flex;
   justify-content: center;
-  align-items: center; /* Center vertically */
+  align-items: center;
   margin-top: 20px;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 6px;
   background-color: black;
-  outline: 1px solid ${colours.greyDark};
+  outline: 2px solid ${colours.greyDark};
 `;
 
 const Results: React.FC = () => {

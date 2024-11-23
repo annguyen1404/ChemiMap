@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import colours from "./Colours";
 
 export const Title = styled.h1`
   font-size: 6rem;

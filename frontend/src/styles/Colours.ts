@@ -7,6 +7,8 @@ const colours = {
     hoverGreyLight: "#8A8C98",
     hoverGreyDark: "#262626",
     red: "red",
+    chemicals: "blue",
+    diseases: "green"
   };
   
 export default colours;

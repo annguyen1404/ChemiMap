@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Results from './pages/Results';
 import GlobalStyles from './styles/GlobalStyles';
 import Navbar from './components/NavBar';
+import Read from './pages/Read';
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/results" element={<Results />} />
+        <Route path="/read/:id" element={<Read />} />
       </Routes>
     </Router>
   );
