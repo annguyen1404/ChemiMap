@@ -31,8 +31,6 @@ const cleanData = (data: any): Article => {
     abstract: data.abstract,
     chemicals: parseArray(data.chemicals),
     diseases: parseArray(data.diseases),
-    chemical_ids: parseArray(data.chemical_ids),
-    disease_ids: parseArray(data.disease_ids),
   };
 };
 
@@ -121,7 +119,6 @@ const Read: React.FC = () => {
         
         const data: Article = await response.json();
         const cleanedArticle = cleanData(data);
-        console.log(cleanedArticle)
         setArticle(cleanedArticle);
         setLoading(false); 
       } catch (error) {

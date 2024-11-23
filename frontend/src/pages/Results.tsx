@@ -4,12 +4,41 @@ import { styled } from "styled-components";
 import SearchBar from "../components/SearchBar";
 import { Subtext, SubTitle as Subtitle } from "../styles/Text";
 import Graph from "../components/Graph";
-import { Article, Node } from "../components/DataModels";
+import { Article, GraphData, Node } from "../components/DataModels";
 import NodeDashboard from "../components/NodeDashboard";
 import { Container, IconButton, Section } from "../styles/Layout";
 import { FaArrowDown } from "react-icons/fa";
 import colours from "../styles/Colours";
 import List from "../components/List";
+
+const parseArray = (str: string | undefined): string[] => {
+  try {
+    const fixedStr = str?.replace(/'/g, '"');
+    const parsedArray = JSON.parse(fixedStr || '[]') as string[];
+    const normalizedArray = parsedArray.map(item => item.toLowerCase());
+    return [...new Set(normalizedArray)];
+  } catch (error) {
+    console.error('Failed to parse array:', str);
+    return [];
+  }
+};
+
+const cleanData = (data: any, updateGraphData: boolean): Article[] => {
+  if (updateGraphData) {
+    return data.map((article: any) => {return {
+      id: article.article_code,
+      title: article.title,
+      abstract: article.abstract,
+      chemicals: parseArray(article.chemicals),
+      diseases: parseArray(article.diseases),
+    }});
+  }
+  return data.map((article: any) => {return {
+    id: article.article_code,
+    title: article.title,
+    abstract: article.abstract,
+  }});
+};
 
 const mockAbstractText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -46,6 +75,7 @@ const Results: React.FC = () => {
   const [query, setQuery] = useState<string>(initialQuery);
   const [searchBarValue, setSearchBarValue] = useState<string>(query);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  // const [graphData, setGraphData] = useState<GraphData>({nodes:[], links:[]}) TODO: USE REAL DATA FOR GRAPH
 
   const handleNodeClick = (node: Node) => {
     setSelectedNode(node);
@@ -104,23 +134,46 @@ const Results: React.FC = () => {
     ],
   };
 
-  // Mock fetch function to simulate API call
-  const fetchPapers = async (page: number) => {
-    console.log(`test - query: page: ${page}`);
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
-
-    if (page >= 4) {
-      return [];
+  const fetchArticleList = async (page: number) => {
+    try {
+      const skip = (page - 1) * 10;
+      const response = await fetch(`/api/search/?query=${query}&limit=10&skip=${skip}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch article list");
+      }
+      
+      const data: Article[] = await response.json();
+      const updateGraphData = page == 0
+      const cleanedArticleList = cleanData(data, updateGraphData);
+      // TODO: USE REAL DATA FOR GRAPH
+      // if (updateGraphData) {
+      //   formatGraphData(cleanedArticleList)
+      //   setGraphData()
+      // }
+      return cleanedArticleList;
+    } catch (error) {
+      console.error("Error fetching article:", error);
+      return []
     }
-    const start = (page - 1) * 10;
-    const mockResults: Article[] = Array.from({ length: 10 }, (_, index) => ({
-      id: `${start + index + 1}`,
-      title: `Mock Paper Title ${start + index + 1} for ${query}`,
-      abstract: mockAbstractText,
-    }));
-
-    return mockResults;
   };
+
+  // Mock fetch function to simulate API call
+  // const fetchArticleList = async (page: number) => {
+  //   console.log(`test - query: page: ${page}`);
+  //   await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
+
+  //   if (page >= 4) {
+  //     return [];
+  //   }
+  //   const start = (page - 1) * 10;
+  //   const mockResults: Article[] = Array.from({ length: 10 }, (_, index) => ({
+  //     id: `${start + index + 1}`,
+  //     title: `Mock Paper Title ${start + index + 1} for ${query}`,
+  //     abstract: mockAbstractText,
+  //   }));
+
+  //   return mockResults;
+  // };
 
   return (
     <Container>
@@ -152,7 +205,7 @@ const Results: React.FC = () => {
       <Section id={"list"}>
         <SubtitleSmaller>Biomedical Mentions</SubtitleSmaller>
         <ListContainer>
-          <List query={query} fetchFunction={fetchPapers}></List>
+          <List query={query} fetchFunction={fetchArticleList}></List>
         </ListContainer>
       </Section>
     </Container>
