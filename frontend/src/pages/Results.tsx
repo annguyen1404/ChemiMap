@@ -105,11 +105,11 @@ const Results: React.FC = () => {
       const data: Article[] = await response.json();
       let cleanedArticleList;
       if (page == 1) {
-        cleanedArticleList = cleanArticle(data, true);
+        cleanedArticleList = cleanArticle(data, true, true);
         const updatedGraphData = formatGraphData(cleanedArticleList);
         setGraphData(updatedGraphData);
       } else {
-        cleanedArticleList = cleanArticle(data, false);
+        cleanedArticleList = cleanArticle(data, true, false);
       }
       return cleanedArticleList;
     } catch (error) {

@@ -84,7 +84,7 @@ const Read: React.FC = () => {
         }
 
         const data: Article = await response.json();
-        const cleanedArticleList = cleanArticle([data], true);
+        const cleanedArticleList = cleanArticle([data], false, true);
         const updatedGraphData = formatGraphData(cleanedArticleList);
         setArticle(cleanedArticleList[0]);
         setGraphData(updatedGraphData);

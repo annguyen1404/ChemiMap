@@ -96,6 +96,7 @@ export function formatGraphData(articles: Article[]): GraphData {
 
 export const cleanArticle = (
   data: any,
+  shortAbstract: boolean,
   updateGraphData: boolean
 ): Article[] => {
   if (updateGraphData) {
@@ -103,7 +104,7 @@ export const cleanArticle = (
       return {
         id: article.article_code,
         title: article.title,
-        abstract: truncateAbstract(article.abstract),
+        abstract: shortAbstract? truncateAbstract(article.abstract): article.abstract,
         chemicals: parseArray(article.chemicals),
         diseases: parseArray(article.diseases),
         chemical_ids: parseArray(article.chemical_ids),
@@ -117,7 +118,7 @@ export const cleanArticle = (
     return {
       id: article.article_code,
       title: article.title,
-      abstract: truncateAbstract(article.abstract),
+      abstract: shortAbstract? truncateAbstract(article.abstract): article.abstract,
     };
   });
 };
