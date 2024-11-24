@@ -10,6 +10,7 @@ import {
   capitalize,
   cleanArticle,
   formatGraphData,
+  getUniqueList,
 } from "../shared/ArticleUtils";
 
 const ArticleContainer = styled.div`
@@ -85,9 +86,19 @@ const Read: React.FC = () => {
 
         const data: Article = await response.json();
         const cleanedArticleList = cleanArticle([data], false, true);
+
+        // Update graph needs all values
         const updatedGraphData = formatGraphData(cleanedArticleList);
-        setArticle(cleanedArticleList[0]);
         setGraphData(updatedGraphData);
+        // Update article needs unique values
+        const cleanedArticleUnique = {
+          id: cleanedArticleList[0].id,
+          title: cleanedArticleList[0].title,
+          abstract: cleanedArticleList[0].abstract,
+          chemicals: getUniqueList(cleanedArticleList[0].chemicals ?? []),
+          diseases: getUniqueList(cleanedArticleList[0].diseases ?? []),
+        };
+        setArticle(cleanedArticleUnique);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching article:", error);

@@ -12,6 +12,11 @@ export const parseArray = (str: string | undefined): string[] => {
   }
 };
 
+export const getUniqueList = (list: string[]): string[] => {
+  const normalizedArray = list.map((item) => item.toLowerCase());
+  return [...new Set(normalizedArray)];
+};
+
 export const truncateAbstract = (abstract: string): string => {
   if (abstract.length > 50) {
     return abstract.substring(0, 450) + "...";
@@ -104,7 +109,9 @@ export const cleanArticle = (
       return {
         id: article.article_code,
         title: article.title,
-        abstract: shortAbstract? truncateAbstract(article.abstract): article.abstract,
+        abstract: shortAbstract
+          ? truncateAbstract(article.abstract)
+          : article.abstract,
         chemicals: parseArray(article.chemicals),
         diseases: parseArray(article.diseases),
         chemical_ids: parseArray(article.chemical_ids),
@@ -118,7 +125,9 @@ export const cleanArticle = (
     return {
       id: article.article_code,
       title: article.title,
-      abstract: shortAbstract? truncateAbstract(article.abstract): article.abstract,
+      abstract: shortAbstract
+        ? truncateAbstract(article.abstract)
+        : article.abstract,
     };
   });
 };
