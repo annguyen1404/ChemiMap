@@ -163,7 +163,7 @@ const Graph = (props: GraphProps) => {
     }
   }, [props]);
 
-  return <svg ref={svgRef} width="95%" height="50%" />;
+  return <svg ref={svgRef} width="95%" height="80%" />;
 };
 
 export default Graph;

@@ -2,13 +2,12 @@ import React, { useState, ChangeEvent, KeyboardEvent, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/SearchBar";
-import { Subtext, SubTitle as Subtitle } from "../styles/Text";
+import { Subtext, SubTitle, Highlight } from "../styles/Text";
 import Graph from "../components/Graph";
 import {
   Article,
   formatGraphData,
   GraphData,
-  Link,
   Node,
 } from "../components/DataModels";
 import NodeDashboard from "../components/NodeDashboard";
@@ -64,7 +63,7 @@ const cleanData = (data: any, updateGraphData: boolean): Article[] => {
 const mockAbstractText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-const SubtitleGraph = styled(Subtitle)`
+const SubTitleGraph = styled(SubTitle)`
   margin-top: 20px;
 `;
 
@@ -72,7 +71,7 @@ const SubtextGraph = styled(Subtext)`
   margin-bottom: 0px;
 `;
 
-const SubtitleSmaller = styled(Subtitle)`
+const SubTitleSmaller = styled(SubTitle)`
   font-size: 1.75rem;
 `;
 
@@ -207,7 +206,6 @@ const Results: React.FC = () => {
   return (
     <Container>
       <Section id={"graph"}>
-        <SubtitleGraph>Search results for: {query}</SubtitleGraph>
         <SearchBar
           query={searchBarValue}
           onChange={handleChange}
@@ -215,15 +213,18 @@ const Results: React.FC = () => {
           onKeyDown={handleKeyDown}
         />
         <SubtextGraph>
-          DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
-          caution.
+          Key / 
+          <Highlight color={colours.chemicals} isKeyLabel={true}>Chemical</Highlight>
+           
+          <Highlight color={colours.diseases} isKeyLabel={true}>Disease</Highlight>
         </SubtextGraph>
         <Graph data={graphData} onNodeClick={handleNodeClick} />
         <SubtextGraph>
           This graph displays the relationship of chemicals/diseases in the top
           10 most relevant articles.
-          <br></br>Select any entity to learn more or scroll down for the list
-          of relevant articles.
+          <br />
+          DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
+          caution.
         </SubtextGraph>
         <IconButton onClick={handleScrollDown}>
           <FaArrowDown />
@@ -232,7 +233,7 @@ const Results: React.FC = () => {
 
       {selectedNode !== null && <NodeDashboard selectedNode={selectedNode} />}
       <Section id={"list"}>
-        <SubtitleSmaller>Biomedical Mentions</SubtitleSmaller>
+        <SubTitleSmaller>Biomedical Mentions</SubTitleSmaller>
         <ListContainer>
           <List query={query} fetchFunction={fetchArticleList}></List>
         </ListContainer>

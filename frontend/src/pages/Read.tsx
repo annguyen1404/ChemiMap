@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Article } from "../components/DataModels";
 import { Container, Section } from "../styles/Layout";
-import { Subtext, SubTitle } from "../styles/Text";
+import { Subtext, SubTitle, Highlight } from "../styles/Text";
 import colours from "../styles/Colours";
 
 const capitalize = (str: string): string => {
@@ -72,7 +72,6 @@ const TextContainer = styled.div`
 const SubtextArticle = styled(Subtext)`
   max-width: 100%;
   text-align: left-justified;
-  line-height: 1rem;
 `;
 
 const ArticleTitle = styled(SubTitle)`
@@ -86,23 +85,6 @@ const KeyTitle = styled(SubTitle)<{ marginTop?: string }>`
   margin-bottom: 2px;
   text-align: center;
   margin-top: ${({ marginTop }) => marginTop ?? "0"};
-`;
-
-const Highlight = styled.span<{
-  color: string;
-  isKeyLabel?: boolean;
-  highlighted?: boolean;
-}>`
-  font-size: 0.75rem;
-  background-color: ${({ highlighted, color }) =>
-    highlighted ? colours.greyDark : color};
-  border-radius: ${({ isKeyLabel }) => (isKeyLabel ? "20px" : "5px")};
-  padding: ${({ isKeyLabel }) => (isKeyLabel ? "2px 3px" : "0 3px")};
-  margin-left: ${({ isKeyLabel }) => (isKeyLabel ? "2px" : "1px")};
-  margin-right: ${({ isKeyLabel }) => (isKeyLabel ? "0" : "1px")};
-  margin-bottom: ${({ isKeyLabel }) => (isKeyLabel ? "5px" : "0")};
-  text-align: ${({ isKeyLabel }) => (isKeyLabel ? "center" : "justify")};
-  cursor: pointer;
 `;
 
 const Read: React.FC = () => {
