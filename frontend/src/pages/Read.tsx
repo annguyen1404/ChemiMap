@@ -1,38 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Article } from "../components/DataModels";
+import { Article, GraphData } from "../components/DataModels";
 import { Container, Section } from "../styles/Layout";
 import { Subtext, SubTitle, Highlight } from "../styles/Text";
 import colours from "../styles/Colours";
-
-const capitalize = (str: string): string => {
-  if (!str) return str;
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
-
-
-const cleanData = (data: any): Article => {
-  const parseArray = (str: string | undefined): string[] => {
-    try {
-      const fixedStr = str?.replace(/'/g, '"');
-      const parsedArray = JSON.parse(fixedStr || '[]') as string[];
-      const normalizedArray = parsedArray.map(item => item.toLowerCase());
-      return [...new Set(normalizedArray)];
-    } catch (error) {
-      console.error('Failed to parse array:', str);
-      return [];
-    }
-  };
-
-  return {
-    id: data._id,
-    title: data.title,
-    abstract: data.abstract,
-    chemicals: parseArray(data.chemicals),
-    diseases: parseArray(data.diseases),
-  };
-};
+import Graph from "../components/Graph";
+import {
+  capitalize,
+  cleanArticle,
+  formatGraphData,
+} from "../shared/ArticleUtils";
 
 const ArticleContainer = styled.div`
   margin: 0 20px;
@@ -92,6 +70,10 @@ const Read: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [article, setArticle] = useState<Article | null>(null);
   const [hoveredTerm, setHoveredTerm] = useState<string | null>(null);
+  const [graphData, setGraphData] = useState<GraphData>({
+    nodes: [],
+    links: [],
+  });
 
   useEffect(() => {
     const fetchArticle = async (articleId: string) => {
@@ -100,15 +82,17 @@ const Read: React.FC = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch article");
         }
-        
+
         const data: Article = await response.json();
-        const cleanedArticle = cleanData(data);
-        setArticle(cleanedArticle);
-        setLoading(false); 
+        const cleanedArticleList = cleanArticle([data], true);
+        const updatedGraphData = formatGraphData(cleanedArticleList);
+        setArticle(cleanedArticleList[0]);
+        setGraphData(updatedGraphData);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching article:", error);
         setArticle(null);
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -142,12 +126,13 @@ const Read: React.FC = () => {
     chemicals: string[],
     diseases: string[]
   ) => {
-
-    const terms = [...chemicals, ...diseases].sort((a, b) => b.length - a.length);
+    const terms = [...chemicals, ...diseases].sort(
+      (a, b) => b.length - a.length
+    );
     const regex = new RegExp(`(\\b${terms.join("\\b|\\b")}\\b)`, "gi");
-  
+
     const parts = text.split(regex);
-    
+
     return parts.map((part, index) => {
       const lowerCasePart = part.toLowerCase();
       if (
@@ -160,15 +145,16 @@ const Read: React.FC = () => {
           <Highlight
             key={index}
             color={colours.chemicals}
-            highlighted={hoveredTerm && hoveredTerm !== chemicalName ? true : false}
+            highlighted={
+              hoveredTerm && hoveredTerm !== chemicalName ? true : false
+            }
             onMouseEnter={() => setHoveredTerm(chemicalName || null)}
             onMouseLeave={() => setHoveredTerm(null)}
           >
             {part}
           </Highlight>
         );
-      } 
-      else if (
+      } else if (
         diseases.some((disease) => disease.toLowerCase() === lowerCasePart)
       ) {
         const diseaseName = diseases.find(
@@ -178,7 +164,9 @@ const Read: React.FC = () => {
           <Highlight
             key={index}
             color={colours.diseases}
-            highlighted={hoveredTerm && hoveredTerm !== diseaseName ? true : false}
+            highlighted={
+              hoveredTerm && hoveredTerm !== diseaseName ? true : false
+            }
             onMouseEnter={() => setHoveredTerm(diseaseName || null)}
             onMouseLeave={() => setHoveredTerm(null)}
           >
@@ -186,19 +174,18 @@ const Read: React.FC = () => {
           </Highlight>
         );
       }
-      
+
       // Return the unmodified part if it does not match
       return part;
     });
   };
-  
 
   return (
     <Container>
       <Section id="read">
         {loading ? (
           "Loading..."
-        ) : (article? (
+        ) : article ? (
           <>
             <Subtext>PMID: {id}</Subtext>
             <ArticleTitle>{article.title}</ArticleTitle>
@@ -251,7 +238,28 @@ const Read: React.FC = () => {
               </TextContainer>
             </ArticleContainer>
           </>
-        ): `Retrieval failed: PMID ${id}.`)}
+        ) : (
+          `Retrieval failed: PMID ${id}.`
+        )}
+      </Section>
+      <Section id={"graph"}>
+        <Subtext>
+          This graph displays the relationships of chemicals/diseases in this
+          article.
+          <br />
+          DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
+          caution.
+        </Subtext>
+        <Graph data={graphData} />
+        <Subtext>
+          Key /
+          <Highlight color={colours.chemicals} isKeyLabel={true}>
+            Chemical
+          </Highlight>
+          <Highlight color={colours.diseases} isKeyLabel={true}>
+            Disease
+          </Highlight>
+        </Subtext>
       </Section>
     </Container>
   );

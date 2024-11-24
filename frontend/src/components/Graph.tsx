@@ -5,7 +5,7 @@ import colours from "../styles/Colours";
 
 interface GraphProps {
   data: GraphData;
-  onNodeClick: (node: Node) => void;
+  onNodeClick?: (node: Node) => void;
 }
 
 const Graph = (props: GraphProps) => {
@@ -78,7 +78,7 @@ const Graph = (props: GraphProps) => {
           .on("drag", dragged)
           .on("end", dragEnded)
       )
-      .on("click", (event, d) => props.onNodeClick(d))
+      .on("click", (event, d) => props.onNodeClick? props.onNodeClick(d):{})
       .on("mouseover", function () {
         d3.select(this)
           .transition()
@@ -163,7 +163,7 @@ const Graph = (props: GraphProps) => {
     }
   }, [props]);
 
-  return <svg ref={svgRef} width="95%" height="80%" />;
+  return <svg ref={svgRef} width="95%" height="70%" />;
 };
 
 export default Graph;

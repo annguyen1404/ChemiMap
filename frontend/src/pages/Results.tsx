@@ -4,72 +4,15 @@ import { styled } from "styled-components";
 import SearchBar from "../components/SearchBar";
 import { Subtext, SubTitle, Highlight } from "../styles/Text";
 import Graph from "../components/Graph";
-import {
-  Article,
-  formatGraphData,
-  GraphData,
-  Node,
-} from "../components/DataModels";
+import { Article, GraphData, Node } from "../components/DataModels";
 import NodeDashboard from "../components/NodeDashboard";
-import { Container, IconButton, Section } from "../styles/Layout";
-import { FaArrowDown } from "react-icons/fa";
+import { Container, Section } from "../styles/Layout";
 import colours from "../styles/Colours";
 import List from "../components/List";
-
-const parseArray = (str: string | undefined): string[] => {
-  try {
-    const fixedStr = str?.replace(/'/g, '"');
-    const parsedArray = JSON.parse(fixedStr || "[]") as string[];
-    const normalizedArray = parsedArray.map((item) => item.toLowerCase());
-    return [...new Set(normalizedArray)];
-  } catch (error) {
-    console.error("Failed to parse array:", str);
-    return [];
-  }
-};
-
-const truncateAbstract = (abstract: string): string => {
-  if (abstract.length > 50) {
-    return abstract.substring(0, 450) + "...";
-  }
-  return abstract;
-};
-
-const cleanData = (data: any, updateGraphData: boolean): Article[] => {
-  if (updateGraphData) {
-    return data.map((article: any) => {
-      return {
-        id: article.article_code,
-        title: article.title,
-        abstract: truncateAbstract(article.abstract),
-        chemicals: parseArray(article.chemicals),
-        diseases: parseArray(article.diseases),
-        chemical_ids: parseArray(article.chemical_ids),
-        disease_ids: parseArray(article.disease_ids),
-        CID_chemical: parseArray(article.CID_chemical),
-        CID_disease: parseArray(article.CID_disease),
-      };
-    });
-  }
-  return data.map((article: any) => {
-    return {
-      id: article.article_code,
-      title: article.title,
-      abstract: truncateAbstract(article.abstract),
-    };
-  });
-};
+import { cleanArticle, formatGraphData } from "../shared/ArticleUtils";
 
 const mockAbstractText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-
-const SubTitleGraph = styled(SubTitle)`
-  margin-top: 20px;
-`;
-
-const SubtextGraph = styled(Subtext)`
-  margin-bottom: 0px;
-`;
 
 const SubTitleSmaller = styled(SubTitle)`
   font-size: 1.75rem;
@@ -108,16 +51,6 @@ const Results: React.FC = () => {
     navigate(`/results?query=${encodeURIComponent(query)}#info`);
     setTimeout(() => {
       const target = document.getElementById("info");
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);
-  };
-
-  const handleScrollDown = (): void => {
-    navigate(`/results?query=${encodeURIComponent(query)}#list`);
-    setTimeout(() => {
-      const target = document.getElementById("list");
       if (target) {
         target.scrollIntoView({ behavior: "smooth" });
       }
@@ -172,11 +105,11 @@ const Results: React.FC = () => {
       const data: Article[] = await response.json();
       let cleanedArticleList;
       if (page == 1) {
-        cleanedArticleList = cleanData(data, true);
+        cleanedArticleList = cleanArticle(data, true);
         const updatedGraphData = formatGraphData(cleanedArticleList);
         setGraphData(updatedGraphData);
       } else {
-        cleanedArticleList = cleanData(data, false);
+        cleanedArticleList = cleanArticle(data, false);
       }
       return cleanedArticleList;
     } catch (error) {
@@ -212,23 +145,23 @@ const Results: React.FC = () => {
           onSearch={handleSearch}
           onKeyDown={handleKeyDown}
         />
-        <SubtextGraph>
-          Key / 
-          <Highlight color={colours.chemicals} isKeyLabel={true}>Chemical</Highlight>
-           
-          <Highlight color={colours.diseases} isKeyLabel={true}>Disease</Highlight>
-        </SubtextGraph>
-        <Graph data={graphData} onNodeClick={handleNodeClick} />
-        <SubtextGraph>
-          This graph displays the relationship of chemicals/diseases in the top
+        <Subtext>
+          This graph displays the relationships of chemicals/diseases in the top
           10 most relevant articles.
           <br />
           DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
           caution.
-        </SubtextGraph>
-        <IconButton onClick={handleScrollDown}>
-          <FaArrowDown />
-        </IconButton>
+        </Subtext>
+        <Graph data={graphData} onNodeClick={handleNodeClick} />
+        <Subtext>
+          Key /
+          <Highlight color={colours.chemicals} isKeyLabel={true}>
+            Chemical
+          </Highlight>
+          <Highlight color={colours.diseases} isKeyLabel={true}>
+            Disease
+          </Highlight>
+        </Subtext>
       </Section>
 
       {selectedNode !== null && <NodeDashboard selectedNode={selectedNode} />}
