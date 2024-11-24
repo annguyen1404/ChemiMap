@@ -15,9 +15,10 @@ interface NodeDashboardProps {
 const NodeDashboard = (props: NodeDashboardProps) => {
   return (
     <InfoSection id="info">
-      <SubTitle>Entity Name: {props.selectedNode.label}</SubTitle>
+      <Subtext>{props.selectedNode.group == 1 ? "Chemical" : "Disease"} / {props.selectedNode.id}</Subtext>
+      <SubTitle>{props.selectedNode.label}</SubTitle>
       <Subtext>
-        ID: {props.selectedNode.id}. Group: {props.selectedNode.group}.
+        Relationship mentions (in top 10 literature results): {props.selectedNode.weight}
       </Subtext>
     </InfoSection>
   );

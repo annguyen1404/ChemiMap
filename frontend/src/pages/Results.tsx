@@ -4,7 +4,13 @@ import { styled } from "styled-components";
 import SearchBar from "../components/SearchBar";
 import { Subtext, SubTitle as Subtitle } from "../styles/Text";
 import Graph from "../components/Graph";
-import { Article, GraphData, Node } from "../components/DataModels";
+import {
+  Article,
+  formatGraphData,
+  GraphData,
+  Link,
+  Node,
+} from "../components/DataModels";
 import NodeDashboard from "../components/NodeDashboard";
 import { Container, IconButton, Section } from "../styles/Layout";
 import { FaArrowDown } from "react-icons/fa";
@@ -14,11 +20,11 @@ import List from "../components/List";
 const parseArray = (str: string | undefined): string[] => {
   try {
     const fixedStr = str?.replace(/'/g, '"');
-    const parsedArray = JSON.parse(fixedStr || '[]') as string[];
-    const normalizedArray = parsedArray.map(item => item.toLowerCase());
+    const parsedArray = JSON.parse(fixedStr || "[]") as string[];
+    const normalizedArray = parsedArray.map((item) => item.toLowerCase());
     return [...new Set(normalizedArray)];
   } catch (error) {
-    console.error('Failed to parse array:', str);
+    console.error("Failed to parse array:", str);
     return [];
   }
 };
@@ -32,19 +38,27 @@ const truncateAbstract = (abstract: string): string => {
 
 const cleanData = (data: any, updateGraphData: boolean): Article[] => {
   if (updateGraphData) {
-    return data.map((article: any) => {return {
+    return data.map((article: any) => {
+      return {
+        id: article.article_code,
+        title: article.title,
+        abstract: truncateAbstract(article.abstract),
+        chemicals: parseArray(article.chemicals),
+        diseases: parseArray(article.diseases),
+        chemical_ids: parseArray(article.chemical_ids),
+        disease_ids: parseArray(article.disease_ids),
+        CID_chemical: parseArray(article.CID_chemical),
+        CID_disease: parseArray(article.CID_disease),
+      };
+    });
+  }
+  return data.map((article: any) => {
+    return {
       id: article.article_code,
       title: article.title,
       abstract: truncateAbstract(article.abstract),
-      chemicals: parseArray(article.chemicals),
-      diseases: parseArray(article.diseases),
-    }});
-  }
-  return data.map((article: any) => {return {
-    id: article.article_code,
-    title: article.title,
-    abstract: truncateAbstract(article.abstract),
-  }});
+    };
+  });
 };
 
 const mockAbstractText =
@@ -72,6 +86,8 @@ const ListContainer = styled.div`
   border-radius: 6px;
   background-color: black;
   outline: 2px solid ${colours.greyDark};
+  min-width: 1100px;
+  min-height: 490px;
 `;
 
 const Results: React.FC = () => {
@@ -82,7 +98,10 @@ const Results: React.FC = () => {
   const [query, setQuery] = useState<string>(initialQuery);
   const [searchBarValue, setSearchBarValue] = useState<string>(query);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
-  // const [graphData, setGraphData] = useState<GraphData>({nodes:[], links:[]}) TODO: USE REAL DATA FOR GRAPH
+  const [graphData, setGraphData] = useState<GraphData>({
+    nodes: [],
+    links: [],
+  });
 
   const handleNodeClick = (node: Node) => {
     setSelectedNode(node);
@@ -130,37 +149,40 @@ const Results: React.FC = () => {
   }, [query]);
 
   // Mock graph data
-  const mockNode1 = { id: "1", group: 1, label: `${query} 1` };
-  const mockNode2 = { id: "2", group: 2, label: `${query} 2` };
-  const mockNode3 = { id: "3", group: 1, label: `${query} 3` };
-  const mockGraphData = {
-    nodes: [mockNode1, mockNode2, mockNode3],
-    links: [
-      { source: mockNode1, target: mockNode2 },
-      { source: mockNode2, target: mockNode3 },
-    ],
-  };
+  // const mockNode1 = { id: "1", group: 1, label: `${query} 1` };
+  // const mockNode2 = { id: "2", group: 2, label: `${query} 2` };
+  // const mockNode3 = { id: "3", group: 1, label: `${query} 3` };
+  // const mockGraphData = {
+  //   nodes: [mockNode1, mockNode2, mockNode3],
+  //   links: [
+  //     { source: mockNode1, target: mockNode2, weight: 10 },
+  //     { source: mockNode2, target: mockNode3, weight: 2 },
+  //   ],
+  // };
 
   const fetchArticleList = async (page: number) => {
     try {
       const skip = (page - 1) * 10;
-      const response = await fetch(`/api/search/?query=${query}&limit=10&skip=${skip}`);
+      const response = await fetch(
+        `/api/search/?query=${query}&limit=10&skip=${skip}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch article list");
       }
-      
+
       const data: Article[] = await response.json();
-      const updateGraphData = page == 0
-      const cleanedArticleList = cleanData(data, updateGraphData);
-      // TODO: USE REAL DATA FOR GRAPH
-      // if (updateGraphData) {
-      //   formatGraphData(cleanedArticleList)
-      //   setGraphData()
-      // }
+      let cleanedArticleList;
+      if (page == 1) {
+        cleanedArticleList = cleanData(data, true);
+        const updatedGraphData = formatGraphData(cleanedArticleList);
+        setGraphData(updatedGraphData);
+      } else {
+        cleanedArticleList = cleanData(data, false);
+      }
       return cleanedArticleList;
     } catch (error) {
       console.error("Error fetching article:", error);
-      return []
+      return [];
     }
   };
 
@@ -196,10 +218,10 @@ const Results: React.FC = () => {
           DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
           caution.
         </SubtextGraph>
-        <Graph data={mockGraphData} onNodeClick={handleNodeClick} />
+        <Graph data={graphData} onNodeClick={handleNodeClick} />
         <SubtextGraph>
           This graph displays the relationship of chemicals/diseases in the top
-          20 most relevant articles.
+          10 most relevant articles.
           <br></br>Select any entity to learn more or scroll down for the list
           of relevant articles.
         </SubtextGraph>

@@ -29,10 +29,11 @@ const Graph = (props: GraphProps) => {
           .forceLink()
           .id((d: any) => d.id)
           .links(props.data.links)
-          .distance(100)
+          .distance(100) // Adjust link distance as needed
       )
-      .force("charge", d3.forceManyBody().strength(-300))
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force("charge", d3.forceManyBody().strength(-50)) // Adjust repulsion strength
+      .force("center", d3.forceCenter(width / 2, height / 2)) // Center nodes
+      .force("collide", d3.forceCollide().radius(20).strength(1)); // Prevent overlap
 
     // Create links
     const link = svg
@@ -45,6 +46,19 @@ const Graph = (props: GraphProps) => {
       .attr("stroke", "#aaa")
       .attr("stroke-width", 2);
 
+    // Create weight labels for links
+    const linkLabels = svg
+      .append("g")
+      .attr("class", "link-labels")
+      .selectAll("text")
+      .data(props.data.links)
+      .enter()
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("fill", "#fff")
+      .style("font-size", "10px")
+      .text((d) => d.weight ?? "");
+
     // Create nodes
     const node = svg
       .append("g")
@@ -53,8 +67,10 @@ const Graph = (props: GraphProps) => {
       .data(props.data.nodes)
       .enter()
       .append("circle")
-      .attr("r", 10)
-      .attr("fill", (d) => (d.group === 1 ? colours.chemicals : colours.diseases))
+      .attr("r", (d) => d.weight * 5)
+      .attr("fill", (d) =>
+        d.group === 1 ? colours.chemicals : colours.diseases
+      )
       .call(
         d3
           .drag<SVGCircleElement, Node>()
@@ -71,11 +87,8 @@ const Graph = (props: GraphProps) => {
           .attr("stroke-width", 3);
       })
       .on("mouseout", function () {
-        d3.select(this)
-          .transition()
-          .duration(100)
-          .attr("stroke", "none");
-      });;
+        d3.select(this).transition().duration(100).attr("stroke", "none");
+      });
 
     // Create labels for each node
     const labels = svg
@@ -92,17 +105,44 @@ const Graph = (props: GraphProps) => {
       .text((d) => d.label);
 
     simulation.on("tick", () => {
-      link
-        .attr("x1", (d) => (d.source as Node).x!)
-        .attr("y1", (d) => (d.source as Node).y!)
-        .attr("x2", (d) => (d.target as Node).x!)
-        .attr("y2", (d) => (d.target as Node).y!);
+      const padding = 50;
+      const xMin = padding;
+      const xMax = width - padding;
+      const yMin = padding;
+      const yMax = height - padding;
 
-      node.attr("cx", (d) => d.x!).attr("cy", (d) => d.y!);
-      
-      labels
-        .attr("x", (d) => d.x!)
-        .attr("y", (d) => d.y!);
+      link
+        .attr("x1", (d) =>
+          Math.max(xMin, Math.min(xMax, (d.source as Node).x!))
+        )
+        .attr("y1", (d) =>
+          Math.max(yMin, Math.min(yMax, (d.source as Node).y!))
+        )
+        .attr("x2", (d) =>
+          Math.max(xMin, Math.min(xMax, (d.target as Node).x!))
+        )
+        .attr("y2", (d) =>
+          Math.max(yMin, Math.min(yMax, (d.target as Node).y!))
+        );
+
+      node
+        .attr("cx", (d) => {
+          d.x = Math.max(xMin, Math.min(xMax, d.x!)); // Clamp node's x position
+          return d.x!;
+        })
+        .attr("cy", (d) => {
+          d.y = Math.max(yMin, Math.min(yMax, d.y!)); // Clamp node's y position
+          return d.y!;
+        });
+
+      linkLabels
+        .attr("x", (d) => ((d.source as Node).x! + (d.target as Node).x!) / 2)
+        .attr(
+          "y",
+          (d) => ((d.source as Node).y! + (d.target as Node).y!) / 2 + 20
+        );
+
+      labels.attr("x", (d) => d.x!).attr("y", (d) => d.y!);
     });
 
     function dragStarted(event: any, d: Node) {
@@ -123,7 +163,7 @@ const Graph = (props: GraphProps) => {
     }
   }, [props]);
 
-  return <svg ref={svgRef} width="800" height="50%" />;
+  return <svg ref={svgRef} width="95%" height="50%" />;
 };
 
 export default Graph;
