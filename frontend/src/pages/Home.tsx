@@ -62,7 +62,7 @@ const Home: React.FC = () => {
       <Section id="about">
         <SubTitle>About ChemiMap</SubTitle>
         <Subtext>
-        ChemiMap is a team of data scientists dedicated to helping researchers in the Chemistry field by building a solution for intuitive search and exploration of chemicals, diseases and their relationships in biomedical literature. The team implemented Named Entity Recognition and Relation Extraction models to capture relations within complex articles, combining graphical and document-based databases for efficient access and visualization. 
+        ChemiMap is a team of data scientists dedicated to helping biomedical researchers by building a solution for intuitive search and exploration of chemicals, diseases and their relationships in literature. The team implemented Named Entity Recognition and Relation Extraction models to capture relations within complex articles, combining graphical and document-based databases for efficient access and visualization. 
         </Subtext>
       </Section>
 
