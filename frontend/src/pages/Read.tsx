@@ -71,6 +71,8 @@ const TextContainer = styled.div`
 
 const SubtextArticle = styled(Subtext)`
   max-width: 100%;
+  text-align: left-justified;
+  line-height: 1rem;
 `;
 
 const ArticleTitle = styled(SubTitle)`
@@ -96,8 +98,8 @@ const Highlight = styled.span<{
     highlighted ? colours.greyDark : color};
   border-radius: ${({ isKeyLabel }) => (isKeyLabel ? "20px" : "5px")};
   padding: ${({ isKeyLabel }) => (isKeyLabel ? "2px 3px" : "0 3px")};
-  margin-left: ${({ isKeyLabel }) => (isKeyLabel ? "2px" : "2px")};
-  margin-right: ${({ isKeyLabel }) => (isKeyLabel ? "0" : "2px")};
+  margin-left: ${({ isKeyLabel }) => (isKeyLabel ? "2px" : "1px")};
+  margin-right: ${({ isKeyLabel }) => (isKeyLabel ? "0" : "1px")};
   margin-bottom: ${({ isKeyLabel }) => (isKeyLabel ? "5px" : "0")};
   text-align: ${({ isKeyLabel }) => (isKeyLabel ? "center" : "justify")};
   cursor: pointer;
