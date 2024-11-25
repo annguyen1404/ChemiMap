@@ -33,9 +33,9 @@ const Graph = (props: GraphProps) => {
           .links(props.data.links)
           .distance(100) // Adjust link distance as needed
       )
-      .force("charge", d3.forceManyBody().strength(-50 + sizeFactor*-5)) // Adjust repulsion strength
+      .force("charge", d3.forceManyBody().strength(-50)) // Adjust repulsion strength
       .force("center", d3.forceCenter(width / 2, height / 2)) // Center nodes
-      .force("collide", d3.forceCollide().radius(20).strength(1)); // Prevent overlap
+      .force("collide", d3.forceCollide().radius((d: any) => d.weight*sizeFactor + 10).strength(1)); // Prevent overlap
 
     // Create links
     const link = svg
