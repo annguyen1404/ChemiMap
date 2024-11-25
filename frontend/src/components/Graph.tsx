@@ -33,7 +33,7 @@ const Graph = (props: GraphProps) => {
           .links(props.data.links)
           .distance(100) // Adjust link distance as needed
       )
-      .force("charge", d3.forceManyBody().strength(-50)) // Adjust repulsion strength
+      .force("charge", d3.forceManyBody().strength(-50 + sizeFactor*-5)) // Adjust repulsion strength
       .force("center", d3.forceCenter(width / 2, height / 2)) // Center nodes
       .force("collide", d3.forceCollide().radius(20).strength(1)); // Prevent overlap
 
@@ -107,11 +107,12 @@ const Graph = (props: GraphProps) => {
       .text((d) => d.label);
 
     simulation.on("tick", () => {
-      const padding = 40;
-      const xMin = padding;
-      const xMax = width - padding;
-      const yMin = padding;
-      const yMax = height - padding;
+      const paddingTopBottom = 25;
+      const paddingLeftRight = 50;
+      const xMin = paddingLeftRight;
+      const xMax = width - paddingLeftRight;
+      const yMin = paddingTopBottom;
+      const yMax = height - paddingTopBottom;
 
       link
         .attr("x1", (d) =>
