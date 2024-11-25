@@ -8,6 +8,8 @@ interface GraphProps {
   onNodeClick?: (node: Node) => void;
 }
 
+const sizeFactor = 4;
+
 const Graph = (props: GraphProps) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -67,7 +69,7 @@ const Graph = (props: GraphProps) => {
       .data(props.data.nodes)
       .enter()
       .append("circle")
-      .attr("r", (d) => d.weight * 5)
+      .attr("r", (d) => d.weight * sizeFactor)
       .attr("fill", (d) =>
         d.group === 1 ? colours.chemicals : colours.diseases
       )
@@ -99,13 +101,13 @@ const Graph = (props: GraphProps) => {
       .enter()
       .append("text")
       .attr("text-anchor", "middle")
-      .attr("dy", -15) // Position the label above the node
+      .attr("dy", (d) => -5 - d.weight * sizeFactor) // Position the label above the node
       .attr("fill", "#fff")
       .style("font-size", "11px")
       .text((d) => d.label);
 
     simulation.on("tick", () => {
-      const padding = 50;
+      const padding = 40;
       const xMin = padding;
       const xMax = width - padding;
       const yMin = padding;

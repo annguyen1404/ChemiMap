@@ -25,7 +25,7 @@ const ArticleContainer = styled.div`
 
 const KeyContainer = styled.div`
   overflow-y: auto;
-  width: 200px;
+  width: 250px;
   min-height: 400px;
   max-height: 100%;
   margin-top: 20px;

@@ -9,7 +9,7 @@ import NodeDashboard from "../components/NodeDashboard";
 import { Container, Section } from "../styles/Layout";
 import colours from "../styles/Colours";
 import List from "../components/List";
-import { cleanArticle, formatGraphData } from "../shared/ArticleUtils";
+import { cleanArticle, formatGraphData, pageSize } from "../shared/ArticleUtils";
 
 const mockAbstractText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -94,9 +94,9 @@ const Results: React.FC = () => {
 
   const fetchArticleList = async (page: number) => {
     try {
-      const skip = (page - 1) * 10;
+      const skip = (page - 1) * pageSize;
       const response = await fetch(
-        `/api/search/?query=${query}&limit=10&skip=${skip}`
+        `/api/search/?query=${query}&limit=${pageSize}&skip=${skip}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch article list");
@@ -146,8 +146,7 @@ const Results: React.FC = () => {
           onKeyDown={handleKeyDown}
         />
         <Subtext>
-          This graph displays the relationships of chemicals/diseases in the top
-          10 most relevant articles.
+          This graph displays the relationships of chemicals/diseases in the top {pageSize} most relevant articles.
           <br />
           DISCLAIMER: Full accuracy of graph is not guaranteed. Please use with
           caution.

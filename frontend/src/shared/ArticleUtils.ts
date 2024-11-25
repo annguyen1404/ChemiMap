@@ -1,11 +1,21 @@
 import { Article, GraphData, Node, Link } from "../components/DataModels";
 
+export const pageSize = 25;
+
+export function indexOfSubstring(arr: string[], str: string): number {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].includes(str)) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 export const parseArray = (str: string | undefined): string[] => {
   try {
     const fixedStr = str?.replace(/'/g, '"');
     const parsedArray = JSON.parse(fixedStr || "[]") as string[];
-    const normalizedArray = parsedArray.map((item) => item.toLowerCase());
-    return [...new Set(normalizedArray)];
+    return parsedArray;
   } catch (error) {
     console.error("Failed to parse array:", str);
     return [];
@@ -50,7 +60,7 @@ export function formatGraphData(articles: Article[]): GraphData {
 
       // Add chemical node or update its weight
       if (!nodeMap.has(chemID)) {
-        const chemicalIndex = chemical_ids.indexOf(chemID);
+        const chemicalIndex = indexOfSubstring(chemical_ids,chemID);
         const chemicalName =
           chemicalIndex >= 0 ? chemicals[chemicalIndex] : chemID;
         nodeMap.set(chemID, {
@@ -65,7 +75,7 @@ export function formatGraphData(articles: Article[]): GraphData {
 
       // Add disease node or update its weight
       if (!nodeMap.has(disID)) {
-        const diseaseIndex = disease_ids.indexOf(disID);
+        const diseaseIndex = indexOfSubstring(disease_ids, disID);
         const diseaseName = diseaseIndex >= 0 ? diseases[diseaseIndex] : disID;
         nodeMap.set(disID, {
           id: disID,
