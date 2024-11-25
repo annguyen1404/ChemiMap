@@ -204,7 +204,7 @@ const Read: React.FC = () => {
               <KeyContainer>
                 <KeyTitle>Chemicals</KeyTitle>
                 {article.chemicals
-                  ? article.chemicals.map((chemical, index) => (
+                  ? article.chemicals.sort().map((chemical, index) => (
                       <Highlight
                         key={index}
                         color={colours.chemicals}
@@ -221,7 +221,7 @@ const Read: React.FC = () => {
                   : "None"}
                 <KeyTitle marginTop={"20px"}>Diseases</KeyTitle>
                 {article.diseases
-                  ? article.diseases.map((disease, index) => (
+                  ? article.diseases.sort().map((disease, index) => (
                       <Highlight
                         key={index}
                         color={colours.diseases}
