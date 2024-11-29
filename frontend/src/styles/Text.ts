@@ -22,8 +22,7 @@ export const Subtext = styled.p`
   line-height: 1rem;
 `;
 
-export
-const Highlight = styled.span<{
+export const Highlight = styled.span<{
   color: string;
   isKeyLabel?: boolean;
   highlighted?: boolean;

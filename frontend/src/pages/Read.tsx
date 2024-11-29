@@ -15,8 +15,8 @@ import {
 
 const ArticleContainer = styled.div`
   margin: 0 20px;
-  min-height: 400px;
-  max-height: 400px;
+  min-height: 350px;
+  height: 350px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -26,7 +26,7 @@ const ArticleContainer = styled.div`
 const KeyContainer = styled.div`
   overflow-y: auto;
   width: 250px;
-  min-height: 400px;
+  min-height: 300px;
   max-height: 100%;
   margin-top: 20px;
   padding: 20px;
@@ -40,12 +40,15 @@ const KeyContainer = styled.div`
 const TextContainer = styled.div`
   overflow-y: auto;
   width: 100%;
-  min-height: 400px;
+  min-height: 300px;
   margin-top: 20px;
   padding: 20px;
   border-radius: 6px;
   outline: 2px solid ${colours.greyDark};
   text-align: justify;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const SubtextArticle = styled(Subtext)`
@@ -64,6 +67,22 @@ const KeyTitle = styled(SubTitle)<{ marginTop?: string }>`
   margin-bottom: 2px;
   text-align: center;
   margin-top: ${({ marginTop }) => marginTop ?? "0"};
+`;
+
+const ArticleLinkButton = styled.a`
+  width: 250px;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  padding: 10px 20px;
+  color: ${colours.white};
+  background-color: ${colours.hoverGreyDark};
+  text-decoration: none;
+  border-radius: 6px;
+  text-align: center;
+
+  &:hover {
+    background-color: ${colours.greyDark};
+  }
 `;
 
 const Read: React.FC = () => {
@@ -248,6 +267,13 @@ const Read: React.FC = () => {
                 </SubtextArticle>
               </TextContainer>
             </ArticleContainer>
+            <ArticleLinkButton
+              href={`https://pubmed.ncbi.nlm.nih.gov/${article.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read Full Article
+            </ArticleLinkButton>
           </>
         ) : (
           `Retrieval failed: PMID ${id}.`
