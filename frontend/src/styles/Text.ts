@@ -5,14 +5,12 @@ export const Title = styled.h1`
   font-size: 6rem;
   font-weight: 500;
   margin: 0;
-  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 `;
 
 export const SubTitle = styled.h2`
   font-size: 3rem;
   font-weight: 500;
   margin: 0;
-  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 `;
 
 export const Subtext = styled.p`
@@ -20,6 +18,12 @@ export const Subtext = styled.p`
   margin: 10px;
   max-width: 600px;
   line-height: 1rem;
+`;
+
+export const Subpoint = styled(Subtext)`
+  margin-top: 0;
+  margin-bottom: 10px;
+  margin-left: 18px;
 `;
 
 export const Highlight = styled.span<{
@@ -37,4 +41,20 @@ export const Highlight = styled.span<{
   margin-bottom: ${({ isKeyLabel }) => (isKeyLabel ? "5px" : "0")};
   text-align: ${({ isKeyLabel }) => (isKeyLabel ? "center" : "justify")};
   cursor: pointer;
+`;
+
+export const Button = styled.a`
+  width: 250px;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  padding: 10px 20px;
+  color: ${colours.white};
+  background-color: ${colours.hoverGreyDark};
+  text-decoration: none;
+  border-radius: 6px;
+  text-align: center;
+
+  &:hover {
+    background-color: ${colours.greyDark};
+  }
 `;

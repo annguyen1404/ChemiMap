@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaHome, FaQuestionCircle, FaCopyright } from "react-icons/fa";
+import { FaHome, FaQuestionCircle, FaUserCircle, FaDatabase, FaToolbox } from "react-icons/fa";
 import colours from "../styles/Colours";
 import { useNavigate } from "react-router-dom";
 
@@ -42,24 +42,30 @@ const Navbar: React.FC = () => {
   const handleNavigation = (section: string) => {
     navigate(`/#${section}`);
     setTimeout(() => {
-        const target = document.getElementById(section);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+      const target = document.getElementById(section);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
   return (
     <NavbarContainer>
       <Logo>ChemiMap</Logo>
       <IconContainer>
-      <Icon onClick={() => handleNavigation("main")}>
+        <Icon onClick={() => handleNavigation("main")}>
           <FaHome />
         </Icon>
         <Icon onClick={() => handleNavigation("about")}>
           <FaQuestionCircle />
         </Icon>
-        <Icon onClick={() => handleNavigation("footer")}>
-          <FaCopyright />
+        <Icon onClick={() => handleNavigation("features")}>
+          <FaToolbox />
+        </Icon>
+        <Icon onClick={() => handleNavigation("models")}>
+          <FaDatabase />
+        </Icon>
+        <Icon onClick={() => handleNavigation("team")}>
+          <FaUserCircle />
         </Icon>
       </IconContainer>
     </NavbarContainer>

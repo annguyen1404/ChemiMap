@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Article, GraphData } from "../components/DataModels";
 import { Container, Section } from "../styles/Layout";
-import { Subtext, SubTitle, Highlight } from "../styles/Text";
+import { Subtext, SubTitle, Highlight, Button } from "../styles/Text";
 import colours from "../styles/Colours";
 import Graph from "../components/Graph";
 import {
@@ -67,22 +67,6 @@ const KeyTitle = styled(SubTitle)<{ marginTop?: string }>`
   margin-bottom: 2px;
   text-align: center;
   margin-top: ${({ marginTop }) => marginTop ?? "0"};
-`;
-
-const ArticleLinkButton = styled.a`
-  width: 250px;
-  margin-top: 10px;
-  font-size: 0.75rem;
-  padding: 10px 20px;
-  color: ${colours.white};
-  background-color: ${colours.hoverGreyDark};
-  text-decoration: none;
-  border-radius: 6px;
-  text-align: center;
-
-  &:hover {
-    background-color: ${colours.greyDark};
-  }
 `;
 
 const Read: React.FC = () => {
@@ -267,13 +251,13 @@ const Read: React.FC = () => {
                 </SubtextArticle>
               </TextContainer>
             </ArticleContainer>
-            <ArticleLinkButton
+            <Button
               href={`https://pubmed.ncbi.nlm.nih.gov/${article.id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
               Read Full Article
-            </ArticleLinkButton>
+            </Button>
           </>
         ) : (
           `Retrieval failed: PMID ${id}.`
