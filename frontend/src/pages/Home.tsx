@@ -4,6 +4,7 @@ import styled from "styled-components";
 import SearchBar from "../components/SearchBar";
 import { Container, Section } from "../styles/Layout";
 import { Button, Subpoint, Subtext, SubTitle, Title } from "../styles/Text";
+import colours from "../styles/Colours";
 
 const backgroundImage = require("../assets/background.jpg");
 const backgroundImage1 = require("../assets/background1.jpg");
@@ -79,6 +80,18 @@ const TeamContainer = styled.div`
 
 const SubtextFeatures = styled(Subtext)`
   text-align: left;
+`;
+
+const SubtextModel = styled(Subtext)`
+  text-align: left;
+
+  a {
+    color: white;
+  }
+
+  a:hover {
+    color: ${colours.hoverGreyLight}
+  }
 `;
 
 const Home: React.FC = () => {
@@ -176,15 +189,32 @@ const Home: React.FC = () => {
 
       <ModelsSection id="models">
         <SubTitle>Data & Models</SubTitle>
-        <Subtext>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Subtext>
+        <SubtextModel>
+          ChemiMap currently contains a database compiled from 1650 PubMed
+          articles, including the 1500 articles found in the{" "}
+          <a href={`https://pmc.ncbi.nlm.nih.gov/articles/PMC4860626/`}>
+            BioCreative V Chemical Disease Relation dataset
+          </a>{" "}
+          that were employed in the training of ChemiMap’s language models, as
+          well as an additional 150 articles included in the{" "}
+          <a href={"https://www.nature.com/articles/s41597-021-00875-1"}>
+            NLM_Chem dataset
+          </a>{" "}
+          that was used to demonstrate the viability of the models outside of
+          the original training data. As this is only an MVP showcase, only the
+          title and abstract of each article was utilized.
+          <br />
+          <br />
+          To compile the database, a pipeline was developed with three major
+          components, namely (i) a transformer-based Named Entity Recognition
+          (NER) model; (ii) a Coreference Resolution model that leverages on{" "}
+          <a href={"https://www.ncbi.nlm.nih.gov/mesh"}>MeSH</a> identifiers as
+          well as various custom-made rules; and (iii) a transformer-based
+          Relationship Extraction (RE) model that processes the text and the
+          outputs from models (i) and (ii) to determine if there is an implied
+          interaction for each chemical-disease entity pair found in each of the
+          PubMed articles.
+        </SubtextModel>
       </ModelsSection>
 
       <TeamSection id="team">
