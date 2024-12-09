@@ -1,5 +1,5 @@
 # ChemiMap
-*This is ChemiMap's app repo. Click here to go to [ChemiMap's modelling repo](https://github.com/NomitaChandra/ChemiMap)*
+*This is ChemiMap's app repo. [Click here to go to ChemiMap's modelling repo.](https://github.com/NomitaChandra/ChemiMap)*
 
 ## Problem & Motivation
 
