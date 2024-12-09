@@ -11,7 +11,7 @@ A researcher in the biochemical field typically spends hundreds of hours sifting
 
 Introducing ChemiMap, a chemical-disease relationship explorer that allows the user to quickly find relationships and relevant papers across vast amounts of literature. We designed a product to make research more efficient. ChemiMap uses state-of-the-art Named Entity Recognition (NER) and Relation Extraction (RE) models to find chemicals and diseases in papers and analyzes the most salient relationships between them. This information is presented in an easy-to-visualize interactive knowledge graph along with annotated abstracts of papers highlighting the entities, making research quicker and more efficient. With ChemiMap, we estimate an annual saving of $4 million in total with a user base of 1,000 researchers.
 
-[See a quick demo of ChemiMap here.](https://github.com/NomitaChandra/ChemiMap)
+[See a quick demo of ChemiMap here.](https://www.youtube.com/watch?v=4cmEcU7L2Tg)
 
 Screenshots of the ChemiMapp app:
 ![Screenshot of ChemiMap app - Landing page](frontend/src/assets/chemimap-app1.png)
