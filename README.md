@@ -14,9 +14,9 @@ Introducing ChemiMap, a chemical-disease relationship explorer that allows the u
 [See a quick demo of ChemiMap here.](https://github.com/NomitaChandra/ChemiMap)
 
 Screenshots of the ChemiMapp app:
-![Screenshot of ChemiMap app - Landing page](frontend\src\assets\chemimap-app1.png)
-![Screenshot of ChemiMap app - Graph example](frontend\src\assets\chemimap-app2.png)
-![Screenshot of ChemiMap app - Annotated reading example](frontend\src\assets\chemimap-app3.png)
+![Screenshot of ChemiMap app - Landing page](frontend/src/assets/chemimap-app1.png)
+![Screenshot of ChemiMap app - Graph example](frontend/src/assets/chemimap-app2.png)
+![Screenshot of ChemiMap app - Annotated reading example](frontend/src/assets/chemimap-app3.png)
 
 ## Technical Details and Setup
 
